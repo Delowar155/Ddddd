@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoodDollar Batch Claim Tool</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ethers JS Library (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+    <!-- CSS Styles -->
+    <style>
+        /* Reset & Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-purple: #6366f1; --primary-purple-dark: #4f46e5;
+            --primary-blue: #3b82f6; --primary-orange: #f59e0b;
+            --primary-orange-dark: #d97706; --success-green: #10b981;
+            --warning-yellow: #fbbf24; --error-red: #ef4444;
+            --bg-gray: #f3f4f6; --text-dark: #1f2937;
+            --text-medium: #4b5563; --text-light: #9ca3af;
+            --border-color: #e5e7eb; --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg-gray); color: var(--text-dark); line-height: 1.6; min-height: 100vh; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: var(--shadow-lg); overflow: hidden; }
+
+        /* Header */
+        .header { padding: 32px 24px 24px; text-align: center; }
+        .title { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+        .subtitle { color: var(--text-medium); font-size: 14px; }
+
+        /* Security Notice */
+        .security-notice { display: flex; gap: 12px; background: #fffbeb; border: 1px solid #fcd34d; border-left: 4px solid var(--warning-yellow); border-radius: 8px; padding: 16px; margin: 0 24px 24px; }
+        .notice-icon { font-size: 20px; flex-shrink: 0; }
+        .notice-content strong { color: #92400e; display: block; margin-bottom: 4px; }
+        .notice-content p { color: #a16207; font-size: 13px; }
+
+        /* Form Section */
+        .form-section { padding: 0 24px 24px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 14px; font-weight: 600; color: var(--text-dark); margin-bottom: 8px; }
+        .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 16px; border: 2px solid var(--border-color); border-radius: 10px; font-size: 14px; transition: all 0.2s; background: white; }
+        .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--primary-purple); }
+        .form-textarea { min-height: 120px; resize: vertical; font-family: 'Courier New', monospace; font-size: 13px; }
+        .form-hint { font-size: 12px; color: var(--text-light); margin-top: 6px; }
+
+        /* Select Wrapper */
+        .select-wrapper { position: relative; }
+        .form-select { appearance: none; cursor: pointer; }
+        .select-arrow { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-medium); font-size: 12px; pointer-events: none; }
+
+        /* Buttons */
+        .button-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+        .btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-orange { background: var(--primary-orange); color: white; }
